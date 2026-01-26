@@ -1,0 +1,55 @@
+[Ribbon_5]
+e-rate=300.0
+e-rate1=0.0 1.0
+p-life=0.4
+p-life1=0.0 1.0
+p-linger=10.4
+e-life=2.0
+field-attract-1="Fieldattractiondefinitions1"
+field-attract-2="Fieldattractiondefinitions2"
+field-noise-1="Fieldnoisedefinitions1"
+ChildParticleName=Ekko_Skin57_W_Branched_Resolve.troy
+ChildEmitOnDeath=1
+p-offset=0.0 0.0 60.0
+p-offset1=0.0 0 0 1
+p-type=11
+submesh-list=Bag Weapon
+rendermode=1
+p-xrgba=0.9000076 0.11999695 1.0 0.8
+p-xrgba1=0.0 1 1 1 0
+p-xrgba2=0.2 1 1 1 1
+p-xrgba3=0.5 0.30588202810731824 0.047058996082817106 0.619608 0.694102
+p-xrgba4=1.0 0.286275027010883 0.12156899821203788 0.513725 0
+pass=-12
+p-reflection-fresnel-color=0.0 0.0 0.0 1.0
+p-fresnel=0.109999999
+p-fresnel-color=0.286274523 0.725490212 1.0 0.0
+p-scale=200.0 1.0 1.0
+p-xscale=1 1 1
+p-xscale1=0.0 1 1 1
+p-xscale2=1.0 0 1 1
+p-meshtex=Kaisa_Base_P_AurelionSol_Base_P_SmallStarTrail.dds
+p-uvscroll-rgb=0.0500000007 0.0500000007
+p-uvscroll-rgb1=0.0 vec2(x=0.0500000007, y=0.0500000007)
+p-meshtex-mult=Kaisa_Base_AA_EnergyMult.dds
+p-bindtoemitter=1
+p-local-orient=1
+
+[FieldAttractionDefinitions1]
+f-radius=400.0
+f-accel=200.0
+
+[FieldAttractionDefinitions2]
+f-radius=40.0
+f-accel=200.0
+
+[FieldNoiseDefinitions1]
+f-radius=500.0
+f-period=100.0
+f-veldelta=30.0
+f-axisfrac=0.25 0.5 0.25
+
+[System]
+GroupPart1=Ribbon_5
+SimulateEveryFrame=1
+SimulateWhileOffScreen=1

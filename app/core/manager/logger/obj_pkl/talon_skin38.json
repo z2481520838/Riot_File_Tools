@@ -1,0 +1,298 @@
+{
+    "py/object": "app.core.manager.logger.logger_manager.SavePackage",
+    "data": {
+        "py/object": "app.core.objects.blnd.data_obj.blnd_data.BlnderData",
+        "header": {
+            "py/object": "app.core.objects.blnd.data_obj.blnd_data.BlnderHeader",
+            "mEngineType": "r3d2",
+            "mBinaryBlockType": "blnd",
+            "mBinaryBlockVersion": 1
+        },
+        "pool": {
+            "py/object": "app.core.objects.blnd.data_obj.blnd_data.BlnderPool",
+            "mResourceSize": 0,
+            "mFormatToken": 1514195421,
+            "mVersion": 0,
+            "mNumClasses": 3,
+            "mNumBlends": 0,
+            "mNumTransitionData": 0,
+            "mNumTracks": 1,
+            "mNumAnimData": 3,
+            "mNumMaskData": 0,
+            "mNumEventData": 2,
+            "mUseCascadeBlend": false,
+            "mCascadeBlendValue": 0,
+            "mBlendDataAryAddr": 0,
+            "mTransitionDataOffset": 0,
+            "mBlendTrackAryAddr": 108,
+            "mClassAryAddr": 156,
+            "mMaskDataAryAddr": 0,
+            "mEventDataAryAddr": 776,
+            "mAnimDataAryAddr": 784,
+            "mAnimNameCount": 3,
+            "mAnimNamesOffset": 796,
+            "mSkeleton": {
+                "py/object": "app.core.objects.blnd.data_obj.blnd_data.Path_Record",
+                "PathHash": 178465358,
+                "PathOffset": 932,
+                "Path": "characters/ninan/skins/skin38/talon_skin38.skl"
+            },
+            "mExtBuffer": [
+                0
+            ],
+            "mBlendDataAry": [],
+            "mTransitionData": [],
+            "mBlendTrackAry": [
+                {
+                    "py/object": "app.core.objects.blnd.data_obj.blnd_data.Track_Resource",
+                    "mResourceSize": 48,
+                    "mBlendWeight": 1,
+                    "mBlendMode": 0,
+                    "mIndex": 0,
+                    "mName": "Default",
+                    "start_pos": 108
+                }
+            ],
+            "mMaskDataAry": [],
+            "mEventDataAry": [
+                248,
+                512
+            ],
+            "mAnimDataAry": [
+                null,
+                null,
+                null
+            ],
+            "mClassAry": [
+                {
+                    "py/object": "app.core.objects.blnd.data_obj.clip_data.ClipResource",
+                    "mResourceSize": 80,
+                    "mFlags": 0,
+                    "mUniqueID": 0,
+                    "mNameOffset": 20,
+                    "mClipDataOffset": 28,
+                    "mName": "Attack1",
+                    "mClipData": {
+                        "py/object": "app.core.objects.blnd.data_obj.clip_data.AtomicClip",
+                        "mClipTypeID": 1,
+                        "mStartTick": 0,
+                        "mEndTick": 40,
+                        "mTickDuration": 0.03333333507180214,
+                        "mAnimDataIndex": 0,
+                        "mEventDataAddr": 32,
+                        "mMaskDataAddr": 0,
+                        "mTrackDataAddr": 108,
+                        "mUpdaterDataOffset": 0,
+                        "mSyncGroupNameOffset": 0,
+                        "mSyncGroup": 0,
+                        "mExtBuffer": [
+                            0,
+                            0
+                        ],
+                        "mEventData": {
+                            "py/object": "app.core.objects.blnd.data_obj.event_data.EventResource",
+                            "mResourceSize": 0,
+                            "mFormatToken": 0,
+                            "mVersion": 0,
+                            "mFlags": 0,
+                            "mNumEvents": 1,
+                            "mUniqueID": 0,
+                            "mEventOffsetArrayOffset": 48,
+                            "mEventDataOffset": 52,
+                            "mEventNameHashOffset": 160,
+                            "mEventFrameOffset": 168,
+                            "mNameOffset": 176,
+                            "mExtBuffer": [
+                                4294967295,
+                                4294967295
+                            ],
+                            "mEventDataOffsetArr": [
+                                52
+                            ],
+                            "mEventArray": [
+                                {
+                                    "py/object": "app.core.objects.blnd.data_obj.event_data.ParticleEventData",
+                                    "mResourceSize": 0,
+                                    "mEventTypeId": 2,
+                                    "mFlags": 2,
+                                    "mFrame": 0,
+                                    "mNameOffset": 36,
+                                    "mName": "BA_Set_1",
+                                    "mEffectNameOffset": 48,
+                                    "mBoneNameOffset": 76,
+                                    "mTargetBoneNameOffset": 104,
+                                    "mEndFrame": -1.0,
+                                    "mEffectName": "Talon_Skin38_BA_Set_1.troy",
+                                    "mBoneName": "C_Buffbone_GLB_Layout_Loc",
+                                    "mTargetBoneName": ""
+                                }
+                            ],
+                            "mEventNameHash": [
+                                {
+                                    "py/object": "app.core.objects.blnd.data_obj.event_data.EventNameHash",
+                                    "mDataID": 0,
+                                    "mNameHash": 124375201
+                                }
+                            ],
+                            "mEventFrame": [
+                                {
+                                    "py/object": "app.core.objects.blnd.data_obj.event_data.EventFrame",
+                                    "mDataID": 0,
+                                    "mFrame": 0
+                                }
+                            ],
+                            "mName": "Attack1",
+                            "start_pos": 248
+                        },
+                        "mSyncGroupName": null,
+                        "mTrackDataID": 0,
+                        "mMaskDataID": null,
+                        "start_pos": 196
+                    },
+                    "start_pos": 168
+                },
+                {
+                    "py/object": "app.core.objects.blnd.data_obj.clip_data.ClipResource",
+                    "mResourceSize": 80,
+                    "mFlags": 0,
+                    "mUniqueID": 1,
+                    "mNameOffset": 20,
+                    "mClipDataOffset": 28,
+                    "mName": "Attack2",
+                    "mClipData": {
+                        "py/object": "app.core.objects.blnd.data_obj.clip_data.AtomicClip",
+                        "mClipTypeID": 1,
+                        "mStartTick": 0,
+                        "mEndTick": 40,
+                        "mTickDuration": 0.03333333507180214,
+                        "mAnimDataIndex": 1,
+                        "mEventDataAddr": 32,
+                        "mMaskDataAddr": 0,
+                        "mTrackDataAddr": 108,
+                        "mUpdaterDataOffset": 0,
+                        "mSyncGroupNameOffset": 0,
+                        "mSyncGroup": 0,
+                        "mExtBuffer": [
+                            0,
+                            0
+                        ],
+                        "mEventData": {
+                            "py/object": "app.core.objects.blnd.data_obj.event_data.EventResource",
+                            "mResourceSize": 0,
+                            "mFormatToken": 0,
+                            "mVersion": 0,
+                            "mFlags": 0,
+                            "mNumEvents": 1,
+                            "mUniqueID": 1,
+                            "mEventOffsetArrayOffset": 48,
+                            "mEventDataOffset": 52,
+                            "mEventNameHashOffset": 160,
+                            "mEventFrameOffset": 168,
+                            "mNameOffset": 176,
+                            "mExtBuffer": [
+                                4294967295,
+                                4294967295
+                            ],
+                            "mEventDataOffsetArr": [
+                                52
+                            ],
+                            "mEventArray": [
+                                {
+                                    "py/object": "app.core.objects.blnd.data_obj.event_data.ParticleEventData",
+                                    "mResourceSize": 0,
+                                    "mEventTypeId": 2,
+                                    "mFlags": 2,
+                                    "mFrame": 0,
+                                    "mNameOffset": 36,
+                                    "mName": "BA_Set_2",
+                                    "mEffectNameOffset": 48,
+                                    "mBoneNameOffset": 76,
+                                    "mTargetBoneNameOffset": 104,
+                                    "mEndFrame": -1.0,
+                                    "mEffectName": "Talon_Skin38_BA_Set_2.troy",
+                                    "mBoneName": "C_Buffbone_GLB_Layout_Loc",
+                                    "mTargetBoneName": ""
+                                }
+                            ],
+                            "mEventNameHash": [
+                                {
+                                    "py/object": "app.core.objects.blnd.data_obj.event_data.EventNameHash",
+                                    "mDataID": 0,
+                                    "mNameHash": 124375202
+                                }
+                            ],
+                            "mEventFrame": [
+                                {
+                                    "py/object": "app.core.objects.blnd.data_obj.event_data.EventFrame",
+                                    "mDataID": 0,
+                                    "mFrame": 0
+                                }
+                            ],
+                            "mName": "Attack2",
+                            "start_pos": 512
+                        },
+                        "mSyncGroupName": null,
+                        "mTrackDataID": 0,
+                        "mMaskDataID": null,
+                        "start_pos": 460
+                    },
+                    "start_pos": 432
+                },
+                {
+                    "py/object": "app.core.objects.blnd.data_obj.clip_data.ClipResource",
+                    "mResourceSize": 80,
+                    "mFlags": 0,
+                    "mUniqueID": 2,
+                    "mNameOffset": 20,
+                    "mClipDataOffset": 28,
+                    "mName": "Crit",
+                    "mClipData": {
+                        "py/object": "app.core.objects.blnd.data_obj.clip_data.AtomicClip",
+                        "mClipTypeID": 1,
+                        "mStartTick": 0,
+                        "mEndTick": 40,
+                        "mTickDuration": 0.03333333507180214,
+                        "mAnimDataIndex": 2,
+                        "mEventDataAddr": 0,
+                        "mMaskDataAddr": 0,
+                        "mTrackDataAddr": 108,
+                        "mUpdaterDataOffset": 0,
+                        "mSyncGroupNameOffset": 0,
+                        "mSyncGroup": 0,
+                        "mExtBuffer": [
+                            0,
+                            0
+                        ],
+                        "mEventData": null,
+                        "mSyncGroupName": null,
+                        "mTrackDataID": 0,
+                        "mMaskDataID": null,
+                        "start_pos": 724
+                    },
+                    "start_pos": 696
+                }
+            ],
+            "mAnimNames": [
+                {
+                    "py/object": "app.core.objects.blnd.data_obj.blnd_data.Path_Record",
+                    "PathHash": 2776571187,
+                    "PathOffset": 20,
+                    "Path": "characters/ninan/skins/skin38/animations/talon_attack1.pie_c_12_9.anm"
+                },
+                {
+                    "py/object": "app.core.objects.blnd.data_obj.blnd_data.Path_Record",
+                    "PathHash": 29516752,
+                    "PathOffset": 84,
+                    "Path": "characters/ninan/skins/skin38/animations/talon_attack2.pie_c_12_9.anm"
+                },
+                {
+                    "py/object": "app.core.objects.blnd.data_obj.blnd_data.Path_Record",
+                    "PathHash": 1938413406,
+                    "PathOffset": 148,
+                    "Path": "characters/ninan/skins/skin38/animations/talon_crit.pie_c_12_9.anm"
+                }
+            ]
+        }
+    },
+    "path": "L:/GameServer-indev/Content/GameClient/DATA/Characters/Ninan/Skins/Skin20\\animations"
+}

@@ -1,0 +1,16 @@
+[Temp_Mesh25]
+e-timeoffset=1.5
+p-linger=0
+single-particle=1
+e-rgba=255.0 30.000000045 116.00000056500001 201.000003285
+e-rgbaAP1=0.0 0.600000024
+e-rgbaAP2=1.0 1.0
+e-rgba1=0.0 1 1 1 1
+p-xrgba=1 1 1 1
+p-xrgba1=0.0 0.556420207 0.735179663 1 1
+p-xrgba2=1.0 0.525490224 0.650980413 1 1
+
+[System]
+GroupPart1=Temp_Mesh25
+SimulateEveryFrame=1
+SimulateWhileOffScreen=1
