@@ -22,7 +22,8 @@ class Options_Card(CardWidget):
         self.layout.addLayout(file_info_layout)
         self.layout.addStretch()
         create_text_label(self, "Tips: Patch 4.20 only supports version 5!", self.layout)
-        last_aimesh_ngrid_filename = LOGGERMANAGER.split_path("aimesh_ngrid_file")[1]
+        # last_aimesh_ngrid_filename = LOGGERMANAGER.split_path("aimesh_ngrid_file")[1]
+        last_aimesh_ngrid_filename = self.parent().parent().current_navgrid_data.filename
         new_aimesh_ngrid_filename = os.path.splitext(last_aimesh_ngrid_filename)[0] + "_Fix"
         self.name_label.setText(new_aimesh_ngrid_filename)
 

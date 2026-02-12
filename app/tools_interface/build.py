@@ -1,6 +1,6 @@
 import sys
 import os
-from PySide6.QtCore import Qt, QUrl, QTimer, QStringListModel, QPoint, QEvent, Slot
+from PySide6.QtCore import Qt, QUrl, QTimer, QStringListModel, QPoint, QPointF, QEvent, Slot
 from PySide6.QtGui import QIcon, QDesktopServices, QFont, QTextCursor, QColor, QPixmap, QPainter, QImage, QAction
 from PySide6.QtWidgets import (QWidget, QApplication, QFrame, QFileDialog, QStackedWidget, QHBoxLayout, 
                                QDialog, QSizePolicy, QCompleter, QTextEdit, QPushButton, QListWidget, 

@@ -1,7 +1,7 @@
 import sys
 import struct
 from typing import List
-from ..objects.general import vector3, Box, Sphere
+from ..objects.general import vector2, vector3, Box, Sphere, Circle, Rectangle
 from pathlib import Path
 import jsonpickle
 
@@ -177,3 +177,12 @@ def write_vector3(value, file):
     write_binary(get_bytes_float(value.x), file)
     write_binary(get_bytes_float(value.y), file)
     write_binary(get_bytes_float(value.z), file)
+
+def make_vector2(x, y):
+    return vector2(x, y)
+
+def make_circle(pos, radius):
+    return Circle(pos, radius)
+
+def make_rectangle(origin, size):
+    return Rectangle(origin, size)

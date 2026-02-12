@@ -7,11 +7,11 @@ class ConditionBoolClip_Edit_Card(CardWidget):
         super().__init__(parent)
         self.layout = QVBoxLayout(self)
         self.setLayout(self.layout)
-        self.build()
         self.condition_bool_pair_list = []
         self.condition_bool_pair_listwidget = ListWidget(self)
         self.condition_bool_pair_listwidget.setContextMenuPolicy(Qt.CustomContextMenu)  # 启用自定义右键菜单
         self.condition_bool_pair_listwidget.customContextMenuRequested.connect(self.show_context_menu)  # 连接右键菜单事件
+        self.build()
 
     def build(self):
         condition_bool_clip_id_data_layout = QHBoxLayout()

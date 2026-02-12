@@ -7,11 +7,11 @@ class ParallelClip_Edit_Card(CardWidget):
         super().__init__(parent)
         self.layout = QVBoxLayout(self)
         self.setLayout(self.layout)
-        self.build()
         self.parallel_pair_list = []
         self.parallel_pair_listwidget = ListWidget(self)
         self.parallel_pair_listwidget.setContextMenuPolicy(Qt.CustomContextMenu)  # 启用自定义右键菜单
         self.parallel_pair_listwidget.customContextMenuRequested.connect(self.show_context_menu)  # 连接右键菜单事件
+        self.build()
 
     def build(self):
         parallel_clip_edit_layout = QHBoxLayout()
@@ -22,6 +22,7 @@ class ParallelClip_Edit_Card(CardWidget):
         parallel_pair_list_card = CardWidget(self)
         self.parallel_pair_list_card_layout = QVBoxLayout(parallel_pair_list_card)
         parallel_pair_list_card.setLayout(self.parallel_pair_list_card_layout)
+        self.parallel_pair_list_card_layout.addWidget(self.parallel_pair_listwidget)
 
         self.parallel_pair_info_blnk_card = CardWidget(self)
         parallel_pair_info_blnk_card_layout = QVBoxLayout(self.parallel_pair_info_blnk_card)
@@ -73,7 +74,6 @@ class ParallelClip_Edit_Card(CardWidget):
         self.parallel_pair_list.append(parallel_pair)#这里要改
         item.setData(Qt.UserRole, parallel_pair)
         self.parallel_pair_listwidget.addItem(item)
-        self.parallel_pair_list_card_layout.addWidget(self.parallel_pair_listwidget)
         self.selected_parallel_pair(item)
         self.parallel_pair_listwidget.itemClicked.connect(self.show_current_parallel_pair_info)
 

@@ -14,7 +14,8 @@ import os
 def read_navgrid(file):
     header = read_navgrid_header(file)
     data = read_navgrid_data(header.major, file)
-    return NavGridFile(header, data)
+    filename = os.path.basename(file.name)
+    return NavGridFile(header, data, filename)
 
 def read_navgrid_header(file):
     major = read_uint8(file)

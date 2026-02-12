@@ -7,11 +7,11 @@ class SequencerClip_Edit_Card(CardWidget):
         super().__init__(parent)
         self.layout = QVBoxLayout(self)
         self.setLayout(self.layout)
-        self.build()
         self.sequencer_pair_list = []
         self.sequencer_pair_listwidget = ListWidget(self)
         self.sequencer_pair_listwidget.setContextMenuPolicy(Qt.CustomContextMenu)  # 启用自定义右键菜单
         self.sequencer_pair_listwidget.customContextMenuRequested.connect(self.show_context_menu)  # 连接右键菜单事件
+        self.build()
 
     def build(self):
         sequencer_clip_edit_layout = QHBoxLayout()
@@ -22,6 +22,7 @@ class SequencerClip_Edit_Card(CardWidget):
         sequencer_pair_list_card = CardWidget(self)
         self.sequencer_pair_list_card_layout = QVBoxLayout(sequencer_pair_list_card)
         sequencer_pair_list_card.setLayout(self.sequencer_pair_list_card_layout)
+        self.sequencer_pair_list_card_layout.addWidget(self.sequencer_pair_listwidget)
 
         self.sequencer_pair_info_blnk_card = CardWidget(self)
         sequencer_pair_info_blnk_card_layout = QVBoxLayout(self.sequencer_pair_info_blnk_card)
@@ -73,7 +74,6 @@ class SequencerClip_Edit_Card(CardWidget):
         self.sequencer_pair_list.append(sequencer_pair)#这里要改
         item.setData(Qt.UserRole, sequencer_pair)
         self.sequencer_pair_listwidget.addItem(item)
-        self.sequencer_pair_list_card_layout.addWidget(self.sequencer_pair_listwidget)
         self.selected_sequencer_pair(item)
         self.sequencer_pair_listwidget.itemClicked.connect(self.show_current_sequencer_pair_info)
 

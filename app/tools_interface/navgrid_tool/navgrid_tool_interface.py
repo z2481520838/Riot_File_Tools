@@ -3,9 +3,15 @@ from ..build import*
 from ...core.manager.logger.logger_manager import LOGGERMANAGER
 from ...core.function.navgrid.read_navgrid import ReadWorker
 from ...core.function.navgrid.draw_navgrid import render_all_map_layout, RendererWorker, convert_to_image
-from ...core.function.general import start_worker_flow
+from ...core.function.general import start_worker_flow, make_circle, make_rectangle
 from .navgrid_export_options import NavGrid_ExportOptions
+from .navgrid_drawobjects_options import NavGrid_DrawObjects_Options
 from ...core.function.navgrid.write_bmp import write_bmp_file
+
+def cerate_tabel(name, info, layout):
+    label = QLabel(info)
+    layout.addRow(name, label)
+    return label
 
 class Layout_Interface(QWidget):
 
@@ -31,7 +37,9 @@ class DataType_Navigation(QFrame):
         self.layout_interface = Layout_Interface(self.parent())
         self.object_interface = Object_Interface(self.parent())
 
-        # add items to pivot
+        # 页面切换时,更新属性面板
+        # 当前页面为"图层"时,属性面板展示导航信息
+        # 当前页面为"对象"时,属性面板展示当前选中对象的信息
         self.addSubInterface(self.layout_interface, 'layout_interface', '图层')
         self.addSubInterface(self.object_interface, 'object_interface', '对象')
 
@@ -63,11 +71,71 @@ class NavGrid_Info_Card(CardWidget):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.layout = QVBoxLayout(self)
-        self.info_group = QGroupBox(self)
-        self.info_group.setTitle("属性")
-        self.layout.addWidget(self.info_group)
+        self.blank_info_group = self.build_blank_info_group(self.layout)
+        self.info_group = self.build_info_group(self.layout)
         self.setFixedHeight(350)
         self.setFixedWidth(300)
+
+    def build_blank_info_group(self, layout):
+        group = QGroupBox(self)
+        group.setTitle("属性")
+        form_layout = QFormLayout(group)
+        self.tips = cerate_tabel("提示:", "暂无数据,请先导入一个文件", form_layout)
+        layout.addWidget(group)
+        return group
+
+    def build_info_group(self, layout):
+        group = QGroupBox(self)
+        group.setTitle("属性")
+        form_layout = QFormLayout(group)
+        self.file_name_info = cerate_tabel("FileName:", "", form_layout)
+        self.version_info = cerate_tabel("Version:", "", form_layout)
+        self.map_origin_info = cerate_tabel("MapOrigin:", "", form_layout)
+        self.map_size_info = cerate_tabel("MapSize:", "", form_layout)
+        self.cell_size_info = cerate_tabel("CellSize:", "", form_layout)
+        self.cell_count_info = cerate_tabel("CellCount:", "", form_layout)
+        self.cell_total_info = cerate_tabel("CellTotal:", "", form_layout)
+        self.height_sample_count_info = cerate_tabel("HSCount:", "", form_layout)
+        self.height_sample_offset_info = cerate_tabel("HSOffset:", "", form_layout)
+        self.min_sample_height_info = cerate_tabel("MinHS:", "", form_layout)
+        self.max_sample_height_info = cerate_tabel("MaxHS:", "", form_layout)
+        self.height_samples_total_info = cerate_tabel("HSTotal:", "", form_layout)
+        self.hint_nodes_count_info = cerate_tabel("HNCount:", "", form_layout)
+        group.setVisible(False)
+        layout.addWidget(group)
+        return group
+
+    def on_set(self, item):
+        if item is None:
+            if self.info_group.isVisible():
+                self.info_group.setVisible(False)
+                self.blank_info_group.setVisible(True)
+            else:
+                InfoBar.error("错误", "无效数据", parent=self.parent())
+        else:
+            if self.info_group.isVisible():
+                self.sync_groupp_data(item)
+            else:
+                self.info_group.setVisible(True)
+                self.blank_info_group.setVisible(False)
+                self.sync_groupp_data(item)
+
+    def sync_groupp_data(self, item):
+        header = item.header
+        data = item.data
+        self.file_name_info.setText(item.filename)
+        self.version_info.setText(f"{header.major}, {header.minor}")
+        self.map_origin_info.setText(f"{round(data.minBounds.x, 3)}, {round(data.minBounds.y, 3)}, {round(data.minBounds.z, 3)}")
+        self.map_size_info.setText(f"{round(data.maxBounds.x, 3)}, {round(data.maxBounds.y, 3)}, {round(data.maxBounds.z, 3)}")
+        self.cell_size_info.setText(f"{data.cellSize}")
+        self.cell_count_info.setText(f"{data.cellCountX}, {data.cellCountZ}")
+        self.cell_total_info.setText(f"{len(data.cellsmap.cells)}")
+        self.height_sample_count_info.setText(f"{data.height_samples.vector.count.x}, {data.height_samples.vector.count.y}")
+        self.height_sample_offset_info.setText(f"{round(data.height_samples.vector.offset.x)}, {round(data.height_samples.vector.offset.y)}")
+        self.min_sample_height_info.setText(f"{round(data.height_samples.min_height_sample)}")
+        self.max_sample_height_info.setText(f"{round(data.height_samples.max_height_sample)}")
+        self.height_samples_total_info.setText(f"{len(data.height_samples.height_samples)}")
+        self.hint_nodes_count_info.setText(f"{len(data.hint_nodes)}")
 
 class ColorMapCanvas(CardWidget):
     def __init__(self, parent=None):
@@ -81,11 +149,66 @@ class ColorMapCanvas(CardWidget):
         self.pixmap = QPixmap(self.image_label.size())
         self.pixmap.fill(Qt.transparent)
 
+    def set_view(self, pixmap, data):
+        image_label = self.image_label
+        self.fix_image_label_scale(data)
+        self.current_pixmap = pixmap.scaled(image_label.width(), image_label.height(), Qt.AspectRatioMode.KeepAspectRatio)
+        image_label.setPixmap(self.current_pixmap)
+
+    def draw_ellipse(self, pos, radius, outline_color, fill_color, is_point = False):
+        # 需要将current_pixmap的左下角视为坐标原点进行绘制，或者将current_pixmap使用左下对齐的方式强制归零
+        painter = QPainter(self.current_pixmap)
+        painter.setPen(outline_color)  # 描边
+        painter.setBrush(fill_color)  # 填充
+        painter.drawEllipse(pos.x-radius/20, pos.y-radius/20, radius/10, radius/10)  # 绘制点
+        painter.end()
+        self.image_label.setPixmap(self.current_pixmap)
+        circle = QListWidgetItem(f"Circle {round(pos.x, 3), round(pos.y, 3)}")
+        if is_point == True:
+            circle = QListWidgetItem(f"Point {round(pos.x, 3), round(pos.y, 3)}")
+        circle.setData(Qt.UserRole, make_circle(pos, radius))
+        circle.setCheckState(Qt.Checked)
+        self.parent().object_list.addItem(circle)
+
+    def draw_line(self, point_list, outline_color):
+        # 需要将current_pixmap的左下角视为坐标原点进行绘制，或者将current_pixmap使用左下对齐的方式强制归零
+        if not self.current_pixmap or not point_list or len(point_list) < 2:
+            return
+        q_points = [QPointF(pt.fixed_value.x, pt.fixed_value.y) for pt in point_list]
+        painter = QPainter(self.current_pixmap)
+        painter.setPen(outline_color)  # 描边
+        painter.setBrush(Qt.transparent)  # 填充
+        painter.drawPolyline(q_points)
+        painter.end()
+        self.image_label.setPixmap(self.current_pixmap)
+        line = QListWidgetItem(f"Line {len(q_points)}")
+        line.setCheckState(Qt.Checked)
+        self.parent().object_list.addItem(line)
+
+    def draw_rect(self, origin, size, outline_color):
+        # 需要将current_pixmap的左下角视为坐标原点进行绘制，或者将current_pixmap使用左下对齐的方式强制归零
+        painter = QPainter(self.current_pixmap)
+        painter.setPen(outline_color)  # 描边
+        painter.setBrush(Qt.transparent)  # 填充
+        painter.drawRect(origin.x, origin.y, size.x - origin.x, size.y - origin.y)
+        painter.end()
+        self.image_label.setPixmap(self.current_pixmap)
+        rect = QListWidgetItem(f"Rectangle {round(origin.x, 3), round(origin.y, 3)}")
+        rect.setData(Qt.UserRole, make_rectangle(origin, size))
+        rect.setCheckState(Qt.Checked)
+        self.parent().object_list.addItem(rect)
+
+    def fix_image_label_scale(self, current_navgrid_data):
+        c = current_navgrid_data.data.cellCountZ/current_navgrid_data.data.cellCountX
+        new_size = self.height()*0.95
+        self.image_label.setFixedSize(new_size, new_size*c)
+
     def resizeEvent(self, event):
         max_height = self.parent().height()*0.95
         self.setFixedHeight(min(self.width(), max_height))
-        new_size = self.height()*0.95
-        self.image_label.setFixedSize(new_size, new_size)
+        current_navgrid_data = getattr(self.parent(), 'current_navgrid_data', None)
+        if current_navgrid_data is not None:
+            self.fix_image_label_scale(current_navgrid_data)
 
 class NavGrid_Tool_Interface(ToolInterface):
     """ Icon interface """
@@ -108,7 +231,7 @@ class NavGrid_Tool_Interface(ToolInterface):
         button_layout = QVBoxLayout(self)
         self.load_btn = create_button(self, "导入文件", self.load_file_from_dialog, button_layout, True, 1)# 导入文件
         self.export_f_btn = create_button(self, "导出文件", self.export_file, button_layout, True, 1)# 导出文件
-        self.conversion_btn = create_button(self, "转换版本", self.conversion_Version, button_layout, True, 1)# 转换版本
+        self.draw_objects_btn = create_button(self, "绘制对象", self.draw_objects, button_layout, True, 1)# 绘制图形
         button_layout.addStretch()
         layout.addLayout(button_layout)
 
@@ -117,15 +240,20 @@ class NavGrid_Tool_Interface(ToolInterface):
         layout.addWidget(self.view_box_card)
 
     def build_data_area(self, layout):
-        self.data_area_layout = QVBoxLayout(self)
-        self.navigation_card = DataType_Navigation_Card(self)
-        info_card = NavGrid_Info_Card(self)
-        self.data_area_layout.addWidget(self.navigation_card)
-        self.data_area_layout.addWidget(info_card)
-        layout.addLayout(self.data_area_layout)
         self.layer_list = ListWidget(self)
         self.layer_list.setContextMenuPolicy(Qt.CustomContextMenu)  # 启用自定义右键菜单
         self.layer_list.customContextMenuRequested.connect(self.show_context_menu)  # 连接右键菜单事件
+        self.object_list = ListWidget(self)
+        self.object_list.setContextMenuPolicy(Qt.CustomContextMenu)  # 启用自定义右键菜单
+        self.object_list.customContextMenuRequested.connect(self.show_context_menu)  # 连接右键菜单事件
+        self.data_area_layout = QVBoxLayout(self)
+        self.navigation_card = DataType_Navigation_Card(self)
+        self.navigation_card.navigation.layout_interface.layout.addWidget(self.layer_list)
+        self.navigation_card.navigation.object_interface.layout.addWidget(self.object_list)
+        self.info_card = NavGrid_Info_Card(self)
+        self.data_area_layout.addWidget(self.navigation_card)
+        self.data_area_layout.addWidget(self.info_card)
+        layout.addLayout(self.data_area_layout)
 
     def render_navgrid_data(self, navgrid_data):
         @Slot(object)
@@ -150,6 +278,7 @@ class NavGrid_Tool_Interface(ToolInterface):
         @Slot(object)
         def finalize_load(navgrid_data):
             self.current_navgrid_data = navgrid_data
+            self.info_card.on_set(self.current_navgrid_data)
             self.render_navgrid_data(self.current_navgrid_data.data)
             self.progress_loop.update_text("等待", "正在渲染数据,稍安勿躁......")
         @Slot(str)
@@ -177,40 +306,20 @@ class NavGrid_Tool_Interface(ToolInterface):
             print("错误", f"文件导出失败: {e}")
 
     def export_file(self):
-        self.export_options = NavGrid_ExportOptions(self)
-        self.export_options.show()
-        # 这里选择导出的路径
-        """filepath, _ = QFileDialog.getSaveFileName(self, "保存 Aimesh NGrid 文件", "", "Aimesh NGrid Files (*.aimesh_ngrid)")
-        if not filepath:
-            return
-        try:
-            # 使用获取到的 count_x 和 count_z 来创建 BMP 文件
-            # self.filewrapper.write_new_aimesh_ngrid_file(filepath)
-            InfoBar.success(
-                title="导出文件成功: ",
-                content=f"{filepath}",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP_RIGHT,
-                duration=2000,
-                parent=self
-            )
-        except Exception as e:
-            InfoBar.error("错误", f"文件导出失败: {e}", parent=self)
-            print("错误", f"文件导出失败: {e}")"""
+        current_navgrid_data = getattr(self, 'current_navgrid_data', None)
+        if current_navgrid_data is not None:
+            self.export_options = NavGrid_ExportOptions(self)
+            self.export_options.show()
+        else:
+            InfoBar.warning("Tips:", f"Please import the file first.", parent=self)
 
-    def conversion_Version(self):
-        # 这里选择导出的路径
-        filepath, _ = QFileDialog.getSaveFileName(self, "保存 Aimesh NGrid 文件", "", "Aimesh NGrid Files (*.aimesh_ngrid)")
-        if not filepath:
-            return
-        try:
-            # 使用获取到的 count_x 和 count_z 来创建 BMP 文件
-            # self.filewrapper.write_new_aimesh_ngrid_file_as_Version(filepath, 5)
-            InfoBar.success("导出文件成功", f"{filepath}", parent=self)
-        except Exception as e:
-            InfoBar.error("错误", f"文件导出失败: {e}", parent=self)
-            print("错误", f"文件导出失败: {e}")
+    def draw_objects(self):
+        current_navgrid_data = getattr(self, 'current_navgrid_data', None)
+        if current_navgrid_data is not None:
+            self.drawobjects_options = NavGrid_DrawObjects_Options(self)
+            self.drawobjects_options.show()
+        else:
+            InfoBar.warning("Tips:", f"Please import the file first.", parent=self)
 
     def show_context_menu(self, pos):
         item = self.layer_list.itemAt(pos)  # 获取当前点击的项目
@@ -252,19 +361,13 @@ class NavGrid_Tool_Interface(ToolInterface):
             pixmap = QPixmap.fromImage(flipped_image)
             item.setData(Qt.UserRole, pixmap)
             self.layer_list.addItem(item)
-        self.navigation_card.navigation.layout_interface.layout.addWidget(self.layer_list)
         self.selected_layer(self.layer_list.item(0))
         self.layer_list.itemClicked.connect(self.update_map_layers)
-
-    def showView(self, pixmap):
-        image_label = self.view_box_card.image_label
-        self.current_pixmap = pixmap.scaled(image_label.width(), image_label.height(), Qt.AspectRatioMode.KeepAspectRatio)
-        image_label.setPixmap(self.current_pixmap)
 
     def update_map_layers(self, item):
         layer_name = item.text()
         pixmap = item.data(Qt.UserRole)
-        self.showView(pixmap)
+        self.view_box_card.set_view(pixmap, self.current_navgrid_data)
 
     def selected_layer(self, item):
         self.layer_list.setCurrentItem(item)

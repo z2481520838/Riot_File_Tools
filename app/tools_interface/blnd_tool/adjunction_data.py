@@ -209,6 +209,7 @@ class Create_Blend_Card_Interface(CardWidget):
         blend_data_list_card = CardWidget(self)
         self.blend_data_list_card_layout = QVBoxLayout(self)
         blend_data_list_card.setLayout(self.blend_data_list_card_layout)
+        self.blend_data_list_card_layout.addWidget(self.to_animation_listwidget)
         blend_data_layout.addWidget(blend_data_list_card)
         layout.addLayout(blend_data_layout)
 
@@ -259,7 +260,6 @@ class Create_Blend_Card_Interface(CardWidget):
         self.to_animation_list.append(blend_to_data)
         item.setData(Qt.UserRole, blend_to_data)
         self.to_animation_listwidget.addItem(item)
-        self.blend_data_list_card_layout.addWidget(self.to_animation_listwidget)
         self.selected_blend_to_data(item)
         self.to_animation_listwidget.itemClicked.connect(self.show_current_blend_to_data)
         self.show_current_blend_to_data(item)
@@ -349,6 +349,7 @@ class Create_Transition_Card_Interface(CardWidget):
         transition_data_list_card = CardWidget(self)
         self.transition_data_list_card_layout = QVBoxLayout(self)
         transition_data_list_card.setLayout(self.transition_data_list_card_layout)
+        self.transition_data_list_card_layout.addWidget(self.transition_to_listwidget)
         transition_data_layout.addWidget(transition_data_list_card)
         layout.addLayout(transition_data_layout)
 
@@ -411,7 +412,6 @@ class Create_Transition_Card_Interface(CardWidget):
         self.transition_to_list.append(transition_to_data)
         item.setData(Qt.UserRole, transition_to_data)
         self.transition_to_listwidget.addItem(item)
-        self.transition_data_list_card_layout.addWidget(self.transition_to_listwidget)
         self.selected_transition_to_data(item)
         self.transition_to_listwidget.itemClicked.connect(self.show_current_transition_to_data)
 

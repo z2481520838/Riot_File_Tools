@@ -7,11 +7,11 @@ class SelectorClip_Edit_Card(CardWidget):
         super().__init__(parent)
         self.layout = QVBoxLayout(self)
         self.setLayout(self.layout)
-        self.build()
         self.selector_pair_list = []
         self.selector_pair_listwidget = ListWidget(self)
         self.selector_pair_listwidget.setContextMenuPolicy(Qt.CustomContextMenu)  # 启用自定义右键菜单
         self.selector_pair_listwidget.customContextMenuRequested.connect(self.show_context_menu)  # 连接右键菜单事件
+        self.build()
 
     def build(self):
         selector_clip_edit_layout = QHBoxLayout()
@@ -22,6 +22,7 @@ class SelectorClip_Edit_Card(CardWidget):
         selector_pair_list_card = CardWidget(self)
         self.selector_pair_list_card_layout = QVBoxLayout(selector_pair_list_card)
         selector_pair_list_card.setLayout(self.selector_pair_list_card_layout)
+        self.selector_pair_list_card_layout.addWidget(self.selector_pair_listwidget)
 
         self.selector_pair_info_blnk_card = CardWidget(self)
         selector_pair_info_blnk_card_layout = QVBoxLayout(self.selector_pair_info_blnk_card)
@@ -74,7 +75,6 @@ class SelectorClip_Edit_Card(CardWidget):
         self.selector_pair_list.append(selector_pair)#这里要改
         item.setData(Qt.UserRole, selector_pair)
         self.selector_pair_listwidget.addItem(item)
-        self.selector_pair_list_card_layout.addWidget(self.selector_pair_listwidget)
         self.selected_selector_pair(item)
         self.selector_pair_listwidget.itemClicked.connect(self.show_current_selector_pair_info)
 
