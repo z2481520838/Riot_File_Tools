@@ -7,11 +7,11 @@ class ConditionFloatClip_Edit_Card(CardWidget):
         super().__init__(parent)
         self.layout = QVBoxLayout(self)
         self.setLayout(self.layout)
-        self.build()
         self.condition_float_pair_list = []
         self.condition_float_pair_listwidget = ListWidget(self)
         self.condition_float_pair_listwidget.setContextMenuPolicy(Qt.CustomContextMenu)  # 启用自定义右键菜单
         self.condition_float_pair_listwidget.customContextMenuRequested.connect(self.show_context_menu)  # 连接右键菜单事件
+        self.build()
 
     def build(self):
         condition_float_clip_id_data_layout = QHBoxLayout()
@@ -30,6 +30,7 @@ class ConditionFloatClip_Edit_Card(CardWidget):
         condition_float_pair_list_card = CardWidget(self)
         self.condition_float_pair_list_card_layout = QVBoxLayout(condition_float_pair_list_card)
         condition_float_pair_list_card.setLayout(self.condition_float_pair_list_card_layout)
+        self.condition_float_pair_list_card_layout.addWidget(self.condition_float_pair_listwidget)
 
         self.condition_float_pair_info_blnk_card = CardWidget(self)
         condition_float_pair_info_blnk_card_layout = QVBoxLayout(self.condition_float_pair_info_blnk_card)
@@ -85,7 +86,6 @@ class ConditionFloatClip_Edit_Card(CardWidget):
         self.condition_float_pair_list.append(condition_float_pair)
         item.setData(Qt.UserRole, condition_float_pair)
         self.condition_float_pair_listwidget.addItem(item)
-        self.condition_float_pair_list_card_layout.addWidget(self.condition_float_pair_listwidget)
         self.selected_condition_float_pair(item)
         self.condition_float_pair_listwidget.itemClicked.connect(self.show_current_condition_float_pair_info)
 

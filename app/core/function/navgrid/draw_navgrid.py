@@ -268,5 +268,5 @@ class RendererWorker(QThread):
             self.signals.finished.emit(image_list)
             
         except Exception as e:
-            self.signals.failed.emit("e")
+            self.signals.failed.emit(f"{e}")
             self.signals.finished.emit([])

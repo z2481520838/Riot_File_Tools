@@ -31,6 +31,16 @@ class Sphere:
     radius: float
 
 @dataclass
+class Circle:
+    position: vector2
+    radius: float
+
+@dataclass
+class Rectangle:
+    origin : vector2
+    size: vector2
+
+@dataclass
 class Color:
     r: int = 0
     g: int = 0

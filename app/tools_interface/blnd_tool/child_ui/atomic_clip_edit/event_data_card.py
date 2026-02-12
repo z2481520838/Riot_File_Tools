@@ -12,6 +12,7 @@ class EventData_Card(CardWidget):
         self.event_list = ListWidget(self)
         self.event_list.setContextMenuPolicy(Qt.CustomContextMenu)  # 启用自定义右键菜单
         self.event_list.customContextMenuRequested.connect(self.show_context_menu)  # 连接右键菜单事件
+        self.event_list.itemClicked.connect(self.show_current_event_info)
         self.build()
 
     def get_event_resource(self, pool):
@@ -26,6 +27,7 @@ class EventData_Card(CardWidget):
         self.event_map_layout = QVBoxLayout(self)
         event_resource_card = CardWidget(self)
         event_resource_card.setLayout(self.event_map_layout)
+        self.event_map_layout.addWidget(self.event_list)
         event_resource_layout.addWidget(event_resource_card)
         self.layout.addLayout(event_resource_layout)
 
@@ -35,9 +37,7 @@ class EventData_Card(CardWidget):
         self.event_resource_data.append(event)#这里要改
         item.setData(Qt.UserRole, event)
         self.event_list.addItem(item)
-        self.event_map_layout.addWidget(self.event_list)
         self.selected_event(item)
-        self.event_list.itemClicked.connect(self.show_current_event_info)
 
     def selected_event(self, item):
         self.event_list.setCurrentItem(item)
@@ -90,7 +90,6 @@ class EventData_Card(CardWidget):
         self.build_event_info_layout()
         self.layout.setStretch(0, 2)
         self.layout.setStretch(1, 3)
-
 
     def show_context_menu(self, pos):
         item = self.event_list.itemAt(pos)  # 获取当前点击的项目

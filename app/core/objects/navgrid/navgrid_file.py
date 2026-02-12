@@ -31,6 +31,7 @@ class NavGridData:
 class NavGridFile:
     header: NavGridHeader = None
     data: NavGridData = None
+    filename: str = "Base"
 
     def write(self, new_file):
         pass

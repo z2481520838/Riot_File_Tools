@@ -7,11 +7,11 @@ class ParametricClip_Edit_Card(CardWidget):
         super().__init__(parent)
         self.layout = QVBoxLayout(self)
         self.setLayout(self.layout)
-        self.build()
         self.condition_float_pair_list = []
         self.condition_float_pair_listwidget = ListWidget(self)
         self.condition_float_pair_listwidget.setContextMenuPolicy(Qt.CustomContextMenu)  # 启用自定义右键菜单
         self.condition_float_pair_listwidget.customContextMenuRequested.connect(self.show_context_menu)  # 连接右键菜单事件
+        self.build()
 
     def build(self):
         parametric_clip_id_data_layout = QHBoxLayout()
@@ -29,6 +29,7 @@ class ParametricClip_Edit_Card(CardWidget):
         parametric_pair_list_card = CardWidget(self)
         self.parametric_pair_list_card_layout = QVBoxLayout(parametric_pair_list_card)
         parametric_pair_list_card.setLayout(self.parametric_pair_list_card_layout)
+        self.parametric_pair_list_card_layout.addWidget(self.condition_float_pair_listwidget)
 
         self.parametric_pair_info_blnk_card = CardWidget(self)
         parametric_pair_info_blnk_card_layout = QVBoxLayout(self.parametric_pair_info_blnk_card)
@@ -118,7 +119,6 @@ class ParametricClip_Edit_Card(CardWidget):
         self.condition_float_pair_list.append(parametric_pair)
         item.setData(Qt.UserRole, parametric_pair)
         self.condition_float_pair_listwidget.addItem(item)
-        self.parametric_pair_list_card_layout.addWidget(self.condition_float_pair_listwidget)
         self.selected_parametric_pair(item)
         self.condition_float_pair_listwidget.itemClicked.connect(self.show_current_parametric_pair_info)
 
