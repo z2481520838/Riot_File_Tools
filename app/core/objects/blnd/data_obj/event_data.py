@@ -57,9 +57,9 @@ class SubmeshVisibilityEventData(EventData):
         
 @dataclass
 class FadeEventData(EventData):
-    mEndFrame: float = 0
     mTimeToFade: float = 0
     mTargetAlpha: float = 0
+    mEndFrame: float = 0
 
     def get_value_size(self):
         return 12
