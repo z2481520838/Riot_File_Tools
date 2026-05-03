@@ -43,10 +43,12 @@ class SpellDataFlags(IntFlag):
 class AffectsStatusFlags(IntFlag):
     IgnoreClones             = 1 << 0   # 1
     IgnoreZombies            = 1 << 1   # 2
-    Unknown                  = 1 << 2   # 3
+    IgnorePet                = 1 << 2   # 3
     AllowDead                = 1 << 3   # 8
     AllowUntargetableUseable = 1 << 4   # 16
     AllowUntargetable        = 1 << 5   # 32
+    IgnoreClickproof         = 1 << 6   # 64
+    IgnoreInvulnerble        = 1 << 7   # 128
 
 class AffectsTypeFlags(IntFlag):
     AlliedChampions = 1 << 0
@@ -157,8 +159,8 @@ def map_affects_Status_to_spell_data(value: int) -> SpellDataFlags:
         result |= SpellDataFlags.IgnoreClones
     if value & AffectsStatusFlags.IgnoreZombies:
         result |= SpellDataFlags.NotAffectZombie
-    if value & AffectsStatusFlags.Unknown:
-        result |= SpellDataFlags.NonDispellable
+    if value & AffectsStatusFlags.IgnorePet:
+        result |= SpellDataFlags.AffectNotPet
     if value & AffectsStatusFlags.AllowDead:
         result |= SpellDataFlags.AffectDead
     if value & AffectsStatusFlags.AllowUntargetableUseable:
