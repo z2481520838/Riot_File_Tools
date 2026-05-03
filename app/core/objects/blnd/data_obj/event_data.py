@@ -57,9 +57,9 @@ class SubmeshVisibilityEventData(EventData):
         
 @dataclass
 class FadeEventData(EventData):
+    mEndFrame: float = 0
     mTimeToFade: float = 0
     mTargetAlpha: float = 0
-    mEndFrame: float = 0
 
     def get_value_size(self):
         return 12
@@ -70,6 +70,17 @@ class FadeEventData(EventData):
     def get_name_offset(self):
         self.mEventTypeId = 4
         self.mNameOffset = 20 + self.get_value_size()
+
+    def write(self, new_file):
+        write_byte(new_file, get_bytes_uint32(self.mResourceSize))
+        write_byte(new_file, get_bytes_uint32(self.mEventTypeId))
+        write_byte(new_file, get_bytes_uint32(self.mFlags))
+        write_byte(new_file, get_bytes_float(self.mFrame))
+        write_byte(new_file, get_bytes_int32(self.mNameOffset))
+        write_byte(new_file, get_bytes_float(self.mTimeToFade))
+        write_byte(new_file, get_bytes_float(self.mTargetAlpha))
+        write_byte(new_file, get_bytes_float(self.mEndFrame))
+        write_with_padding(self.mName, new_file)
 
 @dataclass
 class JointSnapEventData(EventData):
