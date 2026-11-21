@@ -35,6 +35,7 @@ class MainWindow(FluentWindow):
         self.navgridtoolinterface = NavGrid_Tool_Interface(self)
         self.blndtoolinterface = Blnd_Tool_Interface(self)
         self.animationtoolinterface = Animation_Tool_Interface(self)
+        self.charactertoolinterface = Character_Tool_Interface(self)
         self.extratoolinterface = Extra_Tool_Interface(self)
         self.settingInterface = SettingInterface(self)
 
@@ -67,6 +68,7 @@ class MainWindow(FluentWindow):
         self.addSubInterface(self.navgridtoolinterface, Icon.MIDLINE, "Ngrid Tool", pos)
         self.addSubInterface(self.blndtoolinterface, Icon.CHARACTER, "Blnd Tool", pos)
         self.addSubInterface(self.animationtoolinterface, Icon.RUNNING, "Animation Tool", pos)
+        self.addSubInterface(self.charactertoolinterface, FIF.PEOPLE, "Character Preview", pos)
         self.addSubInterface(self.extratoolinterface, FIF.APPLICATION, "Extra Tools", pos)
         self.navigationInterface.addWidget(
             routeKey='avatar',

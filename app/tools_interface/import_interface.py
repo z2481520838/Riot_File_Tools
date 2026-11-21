@@ -3,3 +3,4 @@ from .navgrid_tool.navgrid_tool_interface import NavGrid_Tool_Interface
 from .blnd_tool.blnd_tool_interface import Blnd_Tool_Interface
 from .animation_tool.animation_tool_interface import Animation_Tool_Interface
 from .extra_tool.extra_tool_interface import Extra_Tool_Interface
+from .character_tool.character_tool_interface import Character_Tool_Interface
